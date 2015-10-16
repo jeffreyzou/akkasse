@@ -1,6 +1,5 @@
 ## Prototype Streaming API's
 
-###Run
 ####The Test Server:
 
 ```bash
@@ -22,6 +21,7 @@ The following endpoints are now avaiable:
 * ``localhost:9000/livedoc``
 * ``localhost:9000/magic``  SSE stream of magic numbers
 * ``localhost:9000/time``   SSE stream time stamps
+* ``ws://localhost:9000/echo`` WebSocket echo
 
 ####Test Clients
 

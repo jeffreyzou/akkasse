@@ -30,6 +30,9 @@ object Server {
       path("magic"){
         MagicNumberSource(4).magicRoute(system)
       }
+      path("echo"){
+        EchoSource.route(system)
+      }
     }
 
     Http().bindAndHandle(route, "127.0.0.1", 9000)
