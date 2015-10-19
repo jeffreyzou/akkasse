@@ -26,7 +26,10 @@ object EchoSource {
   }
 
   val echoService: Flow[Message, Message, _] = Flow[Message].map {
-    case TextMessage.Strict(txt) => TextMessage("ECHO: " + txt)
+    case TextMessage.Strict(txt) => {
+      logger.info(s"Echo $txt to client")
+      TextMessage("ECHO: " + txt)
+    }
     case _ => TextMessage("Message type unsupported")
   }
 }

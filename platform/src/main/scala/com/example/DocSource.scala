@@ -20,7 +20,6 @@ object DocSource {
     get {
       logRequest(showRequest _) {
         pathEndOrSingleSlash {
-          println("XXXXXXXXXXXXX")
             getFromFile("./src/main/webapp/doc/apidoc.html")
         } ~
           pathPrefix("style") {
@@ -51,8 +50,4 @@ object DocSource {
       }
     }
   }
-
-  def showRequest(request: HttpRequest) = LogEntry( s" ${request.uri} : request: ${request.isRequest()}", InfoLevel)
-  def showRest(request: HttpRequest) = LogEntry(request.uri.toString() + " unmatched", WarningLevel)
-
 }

@@ -24,12 +24,21 @@ object Server {
       pathPrefix("livedoc"){
         DocSource.route(system)
       } ~
+      pathPrefix("log" / "sse" ) {
+        LogService.sseRoute(system)
+      } ~
+      pathPrefix("log") {
+        LogService.logGetRoute(system)
+      } ~
+      path("log" ~ Slash.?) {
+        LogService.logRoute(system)
+      } ~
       path("time") {
         TimeSource.timeRoute(system)
       } ~
       path("magic"){
         MagicNumberSource(4).magicRoute(system)
-      }
+      } ~
       path("echo"){
         EchoSource.route(system)
       }

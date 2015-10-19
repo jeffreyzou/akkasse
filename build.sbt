@@ -12,6 +12,10 @@ lazy val commonSettings = Seq(
 
 lazy val coreDeps = List(
   "com.typesafe.akka" %% "akka-actor" % "2.4.0",
+  "com.typesafe.akka" %% "akka-testkit" % "2.4.0",
+  "com.typesafe.akka"          %% "akka-remote"                   % "2.4.0",
+  "com.typesafe.akka"          %% "akka-cluster"                  % "2.4.0",
+  "com.typesafe.akka"          %% "akka-cluster-tools"            % "2.4.0",
   "com.typesafe.akka" %% "akka-slf4j" % "2.4.0",
   "com.typesafe.akka" %% "akka-stream-experimental" % "1.0",
   "com.typesafe.akka" %% "akka-http-core-experimental" % "1.0",
@@ -36,5 +40,7 @@ lazy val portal = (project in file("portal")).
   settings(commonSettings: _*).
   settings(
     name := "portal-play-sse-client",
-    libraryDependencies ++= coreDeps
+    libraryDependencies ++= coreDeps ++ List(
+      "org.java-websocket" % "Java-WebSocket" % "1.3.0"
+    )
   )
