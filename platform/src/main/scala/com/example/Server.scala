@@ -41,6 +41,9 @@ object Server {
       } ~
       path("echo"){
         EchoSource.route(system)
+      } ~
+      pathPrefix("img") {
+        getFromDirectory("./src/main/webapp/doc/livedoc/img")
       }
     }
 

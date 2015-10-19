@@ -14,10 +14,11 @@ import akka.http.scaladsl.model._
 import akka.http.scaladsl.model.headers._
 import akka.stream.{ActorMaterializer, OverflowStrategy, Materializer}
 import akka.stream.scaladsl.{Source, Flow}
-import de.heikoseeberger.akkasse.{ServerSentEvent, WithHeartbeats}
+import de.heikoseeberger.akkasse.{EventStreamMarshalling, ServerSentEvent, WithHeartbeats}
 import org.joda.time.DateTime
 import org.json4s.native.JsonMethods._
 import org.json4s.native.Serialization._
+import org.slf4j.Logger
 import scala.collection.immutable.Queue
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
@@ -31,7 +32,7 @@ import scala.concurrent.ExecutionContext
 
 
 
-object LogService {
+object LogService  {
 
   implicit val formats = org.json4s.DefaultFormats ++ org.json4s.ext.JodaTimeSerializers.all
 
@@ -81,16 +82,20 @@ object LogService {
 
   def sseRoute(system: ActorSystem)(implicit ec: ExecutionContext, mat: Materializer) = {
     import Directives._
+    import EventStreamMarshalling._
 
     logRequest("SSE-IN") {
       path(IntNumber) { logId => //  "sse" / IntNumber
         get {
           LogSourceRegistry(logId) match {
             case Some(emitter) => {
-              complete { "x"
-//                Source.actorRef[LogMessages.LogEntry](10, OverflowStrategy.dropTail)
-//                  .map(LogMessages.logEventToServerSentEvent)
-//                  .mapMaterializedValue(source => emitter ! DistributedPubSubMediator.Subscribe(logId.toString, source))
+              println(s"Creating and attaching a SSE stream for $logId")
+              complete {
+                Source.actorRef[LogMessages.LogEntry](10, OverflowStrategy.dropTail)
+                  .map(LogMessages.logEventToServerSentEvent)
+                  .mapMaterializedValue(source =>  DistributedPubSub(system).mediator ! Subscribe(logId.toString(),source) )
+
+                //.mapMaterializedValue( source => LogSourceRegistry.getOrCreateRouter(logId,system) ! LogMessages.SubscribeToEmitter(source) )
               }
             }
             case None => complete(HttpResponse(404))

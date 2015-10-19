@@ -1,8 +1,554 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <title>Streaming API Test for SaaS Platform</title>
+    <meta charset="utf-8">
+
+    <link rel="icon" type="image/png"  href="./livedoc/img/identicon.png">
+
+    <!-- Mobile viewport optimized: h5bp.com/viewport -->
+    <meta name="viewport" content="width=device-width">
+
+    <!-- Main stylesheet imports bootstrap css and adds custom -->
+    <link href="./livedoc/css/docstyle.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./livedoc/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="./livedoc/css/pretty-json.css">
+    <link rel="stylesheet" type="text/css" href="./livedoc/css/formstyles.css">
+    <!--<link rel="stylesheet" type="text/css" href="../../css/jquery-ui-1.9.2.custom.css" />-->
+
+    <!-- Modernizr for browser feature-checking
+                + HTML5shiv (included in modernizr) see modernizr.com -->
+    <!--<script src="./livedoc/js/modernizr253min.js"></script>-->
+    <script src='//cdnjs.cloudflare.com/ajax/libs/modernizr/2.5.3/modernizr.min.js' type='text/javascript'></script>
+    <!--<script src='//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js' type='text/javascript'></script>-->
+    <script src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js' type='text/javascript'></script>
+
+
+    <!-- jQuery via Google + local fallback, see h5bp.com -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <!--<script>window.jQuery || document.write('<script src="./livedoc/js/jquery-1.10.2.min.js"><\/script>')</script>-->
+    <!--<script type="text/javascript" src="../../js/jquery-ui-1.9.2.custom.min.js"></script>-->
+
+    <script type="text/javascript" src="./livedoc/js/json.js" id="json"></script>
+    <!--<script type="text/javascript" src="./livedoc/js/underscore-min.js"></script>-->
+    <script type="text/javascript" src="./livedoc/js/backbone-min.js"></script>
+    <script type="text/javascript" src="./livedoc/js/pretty-json-min.js"></script>
+
+    <!-- Bootstrap JS: compiled and minified -->
+    <script src="./livedoc/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        $('#v0').addClass('selected');
+    </script>
 
 </head>
+
 <body>
-<h3>hi - this is where the live doc is going to be</h3>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="http://portal.modeler.gy" target=_blank><strong>Modeler.gy</strong> SaaS Platform Streaming API Prototype</a>
+                <a class="btn btn-primary pull-right" href="http://portal.modeler.gy" target=_blank><b class="icon-home icon-white"></b>
+                    Portal.modeler.gy</a>
+            </div>
+            <!-- /.nav-collapse -->
+        </div>
+        <!-- /.container -->
+    </div>
+    <!-- /navbar-inner -->
+</div>
+<!-- /navbar -->
+
+<!--<div class="container">-->
+<div class="page-header">
+    <h2>Streaming API Test SaaS Platform </h2>
+</div>
+
+<div class="row">
+<div class="tabbable span12">
+
+<article>
+
+<section>
+    <h3 class="title">Goals</h3>
+    <p>
+        <ol>
+    <li>Evaluate <strong>ServerSideEvents</strong> as a steaming mechanism</li>
+    <li>Evaluate <strong>WebSockets</strong> as a steaming mechanism</li>
+    <li>Investigate the feasibility of attaching <strong>streaming interfaces to dynamic resources</strong> (such as the SaaS platform guest systems instances)</li>
+</ol>
+
+    </p>
+    <br>
+</section>
+
+
+<section>
+
+<ul>
+<li class="endpoint">
+<h3 class="title">
+    <span class="name">REST and Streaming interfaces to shared dynamic resources</span>
+    <ul class="actions">
+        <li class="list-methods"><a href="#">List Methods</a></li>
+        <li class="expand-methods"><a href="#">Expand Methods</a></li>
+    </ul>
+</h3>
+<section>
+        <ul>
+    <li>We prototype creating dynamic resources with the <strong>PUT /log</strong> API.</li>
+    <li>The same resources can then be either queried with the usual REST <strong>GET /log/{id}</strong> call.</li>
+    <li>Or alternatively through the streaming <strong>GET /log/sse/{id}</strong> interface</li>
+    </ul>
+
+</section>
+<br>
+
+<ul style="display: block; " class="methods hidden">
+
+<li class="method put ">
+    <a name="put-emitter">
+        <div class="title">
+            <span class="http-method authreq">PUT</span>
+            <span class="name">Create an new Log Emitter</span>
+            <span class="uri">/log/</span>
+        </div>
+    </a>
+
+    <form class="hidden"><input value="PUT" name="httpMethod" type="hidden"><input value="" name="" type="hidden">
+        <input value="/log/"
+               name="methodUri" type="hidden">
+            <span class="description"><p class="desc_title">
+                A new independent async log message emitter is created, its index number is returned</p>
+                <br>
+
+            </span>
+        <article>
+            <section>
+                <h4>Call Description</h4>
+                <table class="parameters">
+                    <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Value</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody class="putmandatory">
+                    <div id="param21">
+                        <tr class="">
+                            <td class="name">empty doc</td>
+                            <td class="parameter"><input name="rawjson[drrepdoc]"
+                                                         value= {} />
+                            </td>
+                            <td class="type">json document</td>
+                            <td class="required">O</td>
+                            <td class="description">no payload is necessary</td>
+                        </tr>
+                    </div>
+                    </tbody>
+
+                </table>
+
+            </section>
+            <section>
+                <h4>Request Headers</h4>
+                <table class="parameters">
+                    <thead>
+                    <tr>
+                        <th>Header</th>
+                        <th>Value</th>
+                        <th>Required</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="">
+                        <td class="name">Accept</td>
+                        <td class="parameter"><input value="application/json" ></td>
+                        <td class="required">R</td>
+                        <td class="description">Accept specifier</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h4>Live Call</h4>
+                <input value="Try it!" id="putsetenvcall" type="submit">
+
+                <div class="liveformpoint"></div>
+            </section>
+            <section>
+                <h4>Response Document</h4>
+
+                <p>Json document containing results</p>
+            </section>
+            <section>
+                <h4>Response Codes</h4>
+
+                <div>
+                </div>
+                <table class="responsecodes">
+                    <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>201</td>
+                        <td>A successful Create - returns the ID for the new resource
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>404</td>
+                        <td>Resource not available.
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </section>
+
+            <section>
+                <h4>Response Headers</h4>
+
+                <div>
+                </div>
+                <table class="responseparameters">
+                    <thead>
+                    <tr>
+                        <th>Header Name</th>
+                        <th>Example Value</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Location</td>
+                        <td>u/r/l</td>
+                        <td>---</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </section>
+        </article>
+    </form>
+</li>
+
+
+<li class="method get ">
+        <a name="get-paged-events">
+            <div class="title">
+                <span class="http-method authreq">GET</span>
+                <span class="name">Log Emitter results</span>
+                <span class="uri">/log/{emitterId}</span>
+                <span class="uriparams">?pageSize={pageSize}</span>
+            </div>
+        </a>
+
+        <form class="hidden"><input value="GET" name="httpMethod" type="hidden"><input value="" name="" type="hidden">
+            <input value="/log/:emitterId?count=:pageSize"
+                   name="methodUri" type="hidden">
+            <span class="description"><p class="desc_title">
+            </p><p>Return the latest logged events for the identified emitter<br>
+            </p>
+                <br>
+            </span>
+            <article>
+                <section>
+                    <h4>Call Description</h4>
+                    <table class="parameters">
+                        <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Value</th>
+                            <th>Type</th>
+                            <th>Required</th>
+                            <th>Description</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="">
+                            <td class="name">emitterId</td>
+                            <td class="parameter"><input value="1" name="params[emitterId]"></td>
+                            <td class="type">String</td>
+                            <td class="required">R</td>
+                            <td class="description">Entity identifier
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tbody class="urlparams">
+                        <tr class="">
+                            <td class="name">page size</td>
+                            <td class="parameter"><input value="3" name="params[pageSize]"></td>
+                            <td class="type">String</td>
+                            <td class="required">O</td>
+                            <td class="description">the number of events to be returned></td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </section>
+                <section>
+                    <h4>Request Headers</h4>
+                    <table class="parameters">
+                        <thead>
+                        <tr>
+                            <th>Header</th>
+                            <th>Value</th>
+                            <th>Required</th>
+                            <th>Description</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="">
+                            <td class="name">Accept</td>
+                            <td class="parameter"><input value="application/json" ></td>
+                            <td class="required">R</td>
+                            <td class="description">Accept specifier</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section>
+                    <h4>Live Call</h4>
+                    <input value="Try it!" id="getsimlistcall" type="submit">
+
+                    <div class="liveformpoint"></div>
+                </section>
+                <section>
+                    <h4>Response Document</h4>
+
+                    <p>Json document containing results</p>
+                </section>
+                <section>
+                    <h4>Response Codes</h4>
+
+                    <div>
+                    </div>
+                    <table class="responsecodes">
+                        <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Description</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>200</td>
+                            <td>A successful Status call returns status headers defined in Response Headers below
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>404</td>
+                            <td>Resource not available.
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                    <br>
+                </section>
+
+                <section>
+                    <h4>Response Headers</h4>
+
+                    <div>
+                    </div>
+                    <table class="responseparameters">
+                        <thead>
+                        <tr>
+                            <th>Header Name</th>
+                            <th>Example Value</th>
+                            <th>Description</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Location</td>
+                            <td>u/r/l</td>
+                            <td>---</td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </section>
+            </article>
+        </form>
+    </li>
+
+<li class="method get ">
+    <a name="get-streamed-events">
+        <div class="title">
+            <span class="http-method authreq">GET</span>
+            <span class="name">Streaming connection to a Log Emitter</span>
+            <span class="uri">/log/sse/{emitterId}</span>
+        </div>
+    </a>
+
+    <form class="hidden"><input value="GET" name="httpMethod" type="hidden"><input value="" name="" type="hidden">
+        <input value="/log/sse/:emitterId"
+               name="methodUri" type="hidden">
+        <span class="description"><p class="desc_title">
+        </p><p>a streaming SSE connection to the identified Log Emitter<br>
+            <br>
+
+
+        <article>
+            <section>
+                <h4>Call Description</h4>
+                <table class="parameters">
+                    <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Value</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="">
+                        <td class="name">emitterId</td>
+                        <td class="parameter"><input value="1" name="params[emitterId]"></td>
+                        <td class="type">String</td>
+                        <td class="required">R</td>
+                        <td class="description">Entity identifier
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </section>
+            <section>
+                <h4>Request Headers</h4>
+                <table class="parameters">
+                    <thead>
+                    <tr>
+                        <th>Header</th>
+                        <th>Value</th>
+                        <th>Required</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="">
+                        <td class="name">Accept</td>
+                        <td class="header"><input value="text/event-stream" name="acceptHeader"></td>
+                        <td class="required">R</td>
+                        <td class="description">Accept specifier should be either text/event-stream or text/plain</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h4>Live Call</h4>
+                <input value="Try it!" id="getsimcall" type="submit">
+
+                <div class="liveformpoint"></div>
+            </section>
+            <section>
+                <h4>Response Document</h4>
+
+                <p>Json document containing results</p>
+            </section>
+            <section>
+                <h4>Response Codes</h4>
+
+                <div>
+                </div>
+                <table class="responsecodes">
+                    <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>200</td>
+                        <td>A successful Status call returns status headers defined in Response Headers below
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>404</td>
+                        <td>Resource not available.
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </section>
+
+            <section>
+                <h4>Response Headers</h4>
+
+                <div>
+                </div>
+                <table class="responseparameters">
+                    <thead>
+                    <tr>
+                        <th>Header Name</th>
+                        <th>Example Value</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Location</td>
+                        <td>u/r/l</td>
+                        <td>---</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </section>
+        </article>
+    </form>
+</li>
+
+
+</ul>
+</ul>
+
+</ul>
+
+</ul>
+
+</section>
+
+
+</article>
+
+</div>   <!-- tabtable span 12 -->
+</div>  <!-- row -->
+
+
+<script src="./livedoc/js/prettify.js"></script>
+<script src="./livedoc/js/json2.js"></script>
+<script src="./livedoc/js/docs.js"></script>
+
+<footer>
+    <span>&copy; Schneider Electric 2014</span>
+</footer>
+
+
 </body>
 </html>

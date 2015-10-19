@@ -16,20 +16,22 @@ class FlowTests extends BaseActorTest {
       Thread.sleep(1000); "complete"
     }
 
+    def morph(in : Int) : String = (in+1).toString + " at " + compat.Platform.currentTime
     def run(actor: ActorRef): Unit = {
       Future {
-        Thread.sleep(100); actor ! 1
+        Thread.sleep(10); actor ! 1
       }
       Future {
-        Thread.sleep(200); actor ! 2
+        Thread.sleep(20); actor ! 2
       }
       Future {
-        Thread.sleep(300); actor ! 3
+        Thread.sleep(30); actor ! 3
       }
     }
 
     val source = Source
                     .actorRef[Int](0, OverflowStrategy.fail)
+                    .map( morph )
                     .mapMaterializedValue(ref ⇒ run(ref))
 
     implicit val m = ActorMaterializer()
