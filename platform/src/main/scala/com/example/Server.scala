@@ -47,7 +47,7 @@ object Server {
       }
     }
 
-    Http().bindAndHandle(route, "127.0.0.1", 9000)
+    Http().bindAndHandle(route, "::0", 9000)
   }
 
 }
