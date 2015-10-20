@@ -1,4 +1,4 @@
-## Prototype Streaming API's
+ ## Prototype Streaming API's
 
 ####The Test Server:
 
@@ -17,7 +17,7 @@ platform Starting com.example.Server.main()
 
 The following endpoints are now avaiable:
 
-* ``localhost:9000`` -> redirects to 
+* ``localhost:9000`` -> redirects to
 * ``localhost:9000/livedoc``
 * ``localhost:9000/magic``  SSE stream of magic numbers
 * ``localhost:9000/time``   SSE stream time stamps

@@ -330,19 +330,19 @@
         //};
         //client.timeout = 5000;
         //client.ontimeout = function () { alert("Timed out!!!"); };
-        
-        var xmlHttpTimeout=setTimeout(ajaxTimeout,5000);
-        client.onreadystatechange=function(){
-            if (client.readyState == 4 && client.status == 200) {
-                clearTimeout(xmlHttpTimeout);
-                //alert(client.responseText);
-            }
-        };
 
-        function ajaxTimeout(){
-            client.abort();
-            alert("Request timed out");
-        }
+        //var xmlHttpTimeout=setTimeout(ajaxTimeout,5000);
+        //client.onreadystatechange=function(){
+        //    if (client.readyState == 4) {
+        //        clearTimeout(xmlHttpTimeout);
+        //        //alert(client.responseText);
+        //    }
+        //};
+        //
+        //function ajaxTimeout(){
+        //    client.abort();
+        //    alert("Request timed out");
+        //}
 
         client.open(httpMethod, url, false, apiKey.value, apiSecret.value);  //false == synchronous
         client.setRequestHeader("Accept", acceptHeader);//"application/json");

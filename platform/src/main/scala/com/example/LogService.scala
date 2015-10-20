@@ -14,6 +14,7 @@ import akka.http.scaladsl.model._
 import akka.http.scaladsl.model.headers._
 import akka.stream.{ActorMaterializer, OverflowStrategy, Materializer}
 import akka.stream.scaladsl.{Source, Flow}
+import com.example.ParagraphGenerator._
 import de.heikoseeberger.akkasse.{EventStreamMarshalling, ServerSentEvent, WithHeartbeats}
 import org.joda.time.DateTime
 import org.json4s.native.JsonMethods._
@@ -143,7 +144,8 @@ class LogEmitter( id :Int, f : FiniteDuration ) extends Actor {
 
   def receive = {
     case LogPulse => {
-      val e = LogEntry(DateTime.now().getMillis, "log", MessageGenerator.oneMessage())
+      val e = LogEntry(DateTime.now().getMillis, CatGenerator.one(),
+        MessageGenerator.oneMessage(), ParagraphGenerator.one())
       //log.debug(s"received a logging pulse - generated : \n\t${e}")
       buffer = buffer.enqueueFinite(e,buffSize)
       pubSubMediator ! Publish(id.toString,e)
@@ -162,7 +164,7 @@ class LogEmitter( id :Int, f : FiniteDuration ) extends Actor {
 }
 
 object LogMessages {
-  case class LogEntry( timestamp : Long, category : String, message : String )
+  case class LogEntry( timestamp : Long, category : String, message : String, description : String )
   case class LogPulse()
   case class GetLogs( size : Int )
   case class SubscribeToEmitter( a : ActorRef)
@@ -229,5 +231,42 @@ object MessageGenerator {
     s"$a $n $v $adj $o $ad"
   }
 
+  def rE(list: Seq[String]): String = list(r.nextInt(list.length))
+}
+
+object CatGenerator {
+  val t1 = FSource.fromInputStream(getClass.getResourceAsStream("/title01.txt")).getLines().toList
+  val t2 = FSource.fromInputStream(getClass.getResourceAsStream("/title02.txt")).getLines().toList
+  var r = Random
+
+  def one() : String = {
+    s"${rE(t1)} ${rE(t2)}"
+  }
+
+  def rE(list: Seq[String]): String = list(r.nextInt(list.length))
+}
+
+object ParagraphGenerator {
+  val l1 = FSource.fromInputStream(getClass.getResourceAsStream("/list01.txt")).getLines().toList
+  val l2 = FSource.fromInputStream(getClass.getResourceAsStream("/list02.txt")).getLines().toList
+  val l3 = FSource.fromInputStream(getClass.getResourceAsStream("/list03.txt")).getLines().toList
+  val l4 = FSource.fromInputStream(getClass.getResourceAsStream("/list04.txt")).getLines().toList
+  val l5 = FSource.fromInputStream(getClass.getResourceAsStream("/list05.txt")).getLines().toList
+  val l6 = FSource.fromInputStream(getClass.getResourceAsStream("/list06.txt")).getLines().toList
+  val l7 = FSource.fromInputStream(getClass.getResourceAsStream("/list07.txt")).getLines().toList
+  val l8 = FSource.fromInputStream(getClass.getResourceAsStream("/list08.txt")).getLines().toList
+
+  var r = Random
+
+  def one() : String = {
+    val o1 = rE(l1)
+    val a1 = aan(o1)
+
+    val o4 = rE(l4)
+    val a4 = aan(o4)
+
+    s"In $a1 $o1 ${rE(l2)} a young ${rE(l3)} stumbles across $a4 $o4 which spurs him into conflict with ${rE(l5)} with " +
+      s"the help of a ${rE(l6)} and her ${rE(l7)} culminating in ${rE(l8)}"
+  }
   def rE(list: Seq[String]): String = list(r.nextInt(list.length))
 }

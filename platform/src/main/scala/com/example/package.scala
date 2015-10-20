@@ -20,4 +20,11 @@ package object example {
     }
   }
   implicit def queue2finitequeue[A](q: Queue[A]): FiniteQueue[A] = new FiniteQueue[A](q)
+
+  def aan(o1: String): String = {
+    o1.charAt(0) match {
+      case 'a' | 'e' | 'o' | 'i' | 'u' => "an"
+      case _ => "a"
+    }
+  }
 }
