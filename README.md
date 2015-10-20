@@ -1,4 +1,31 @@
- ## Prototype Streaming API's
+## Prototype Streaming API's
+
+###Problem Statement
+The SaaS Platform dynamically creates very chatty resources (guest cluster instances) that may live for 10 minutes or 10 months. There may be *many* of these resources, however, they typically have a limited number of users monitoring them. The standard RESTful way of providing information about these resources lead to a lot of traffic and lag. 
+
+###Proposed Design
+We propose a design that mixes traditional REST API's and Streaming API's and investigate the performance.
+
+The **Emitters** are created dynamically (simulating SaaS guest cluster launches) using a REST PUT call. When clients call GET stream API's a subscription is created to the Emitter. These subscriptions span the Platform cluster - the API Stream may served from a different node than the Emitter (great for load balancing).
+![](StreamFlow.dot.png)
+
+####API
+The following endpoints are available:
+
+* ``localhost:9000`` -> redirects to
+* ``localhost:9000/livedoc``
+* PUT ``localhost:9000/log``  Create a Log Emitter and return an emitter ``{id}``
+* GET ``localhost:9000/log/{id}``  Return a page of recent log events
+* GET ``localhost:9000/sse/log/{id}``  SSE stream of log events for emitter ``{id}``
+* GET ``localhost:9000/magic``  SSE stream of magic numbers
+* GET ``localhost:9000/time``   SSE stream time stamps
+* WS-CONNECT ``ws://localhost:9000/echo`` WebSocket echo
+
+#### API Live Doc
+Documentation for the ``log`` API's:
+[http://localhost:9000/livedoc](http://localhost:9000/livedoc)
+
+![](livedoc.png)
 
 ####The Test Server:
 
@@ -12,16 +39,7 @@ user in ~/proto-platform-sse-stream on master*
 [info] Starting application platform in the background ...
 platform Starting com.example.Server.main()
 :
-
 ```
-
-The following endpoints are now avaiable:
-
-* ``localhost:9000`` -> redirects to
-* ``localhost:9000/livedoc``
-* ``localhost:9000/magic``  SSE stream of magic numbers
-* ``localhost:9000/time``   SSE stream time stamps
-* ``ws://localhost:9000/echo`` WebSocket echo
 
 ####Test Clients
 
@@ -49,6 +67,8 @@ data:{"magic":1644628982439445801,"timestamp":"2015-10-16T22:12:08Z"}
 ```
 
 #####Chrome
+* [http://localhost:9000/magic](http://localhost:9000/magic)
+* [http://localhost:9000/time](http://localhost:9000/time)
 ![](browser-client.png)
 
 #####The Akka / Play client

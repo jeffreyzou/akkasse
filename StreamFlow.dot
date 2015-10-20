@@ -1,0 +1,53 @@
+digraph WorkRunner {
+      rankdir=RL;
+
+     node [fontsize=12  fontname=SEOptimistLight labelfontname=SEOptimistLight shape=Mrecord penwidth=1.0 style=filled fillcolor=lightgrey];
+     edge [fontsize=10  fontname=SEOptimistLight labelfontname=SEOptimistLight penwidth=1.0 ];
+
+     Client1;
+     Client2;
+     ClientN;
+
+     node [fontsize=12  fontname=SEOptimist labelfontname=SEOptimist penwidth=2.0 color=gray style=filled fillcolor=white shape=Mrecord];
+     edge [fontsize=10  fontname=SEOptimist labelfontname=SEOptimist penwidth=2.0 ];
+     graph [style="rounded, filled" color=darkgray fillcolor=khaki shape=Mrecord fontsize=12 fontname=SEOptimist labelfontname=SEOptimist labelloc="t" label="" splines=true overlap=false ];
+
+
+     "Streaming API\nA" -> Client1 [label="GET /api/stream/a" fontsize=10  fontname=SEOptimistLight labelfontname=SEOptimistLight penwidth=1.0];
+
+     "Streaming API\nA" -> Client2 [label="GET /api/stream/a" fontsize=10  fontname=SEOptimistLight labelfontname=SEOptimistLight penwidth=1.0];
+
+     "Streaming API\nB" -> ClientN [label="GET /api/stream/b" fontsize=10  fontname=SEOptimistLight labelfontname=SEOptimistLight penwidth=1.0];
+
+     subgraph cluster0 {
+        node [style=filled,color=gray,fillcolor=white,shape=ellipse];
+        style=filled;
+        color=lightgrey;
+        "Streaming API\nA";
+        "Streaming API\nB";
+        label = "HTTP Service Layer";
+     };
+
+     subgraph cluster1 {
+        node [style=filled,color=gray,fillcolor=white,shape=ellipse];
+        style=filled;
+        color=lightgrey;
+        "Emitter\n A" -> "Emitter\n A" [label="  Event \n Source A" penwidth=1.0 ];
+        "Emitter\n B" -> "Emitter\n B" [label="  Event \n Source B" penwidth=1.0 ];
+        label = "Platform Cluster";
+     };
+
+     "Emitter\n A" -> "Streaming API\nA" [label="Cluster-wide\nSubscription" fontsize=10  fontname=SEOptimistLight labelfontname=SEOptimistLight penwidth=1.5];
+     "Emitter\n B" -> "Streaming API\nB" [label="Cluster-wide\nSubscription" fontsize=10  fontname=SEOptimistLight labelfontname=SEOptimistLight penwidth=1.5];
+     ratio = auto;
+     bgcolor="transparent";
+
+
+     node [fontsize=12  fontname=SEOptimistLight labelfontname=SEOptimistLight shape=Mrecord penwidth=1.0 style=filled fillcolor=lightgrey];
+     edge [fontsize=10  fontname=SEOptimistLight labelfontname=SEOptimistLight penwidth=1.0 ];
+
+     /*"Streaming API\nA" -> "WorkDriver:doA"  [dir="both"];
+     "WorkDriver:doA" -> "WorkDriver:doA" [label=" External API A"];
+     StateB -> "WorkDriver:doB" [dir="both"];
+     "WorkDriver:doB" -> "WorkDriver:doB" [label=" External API B"];*/
+ }
