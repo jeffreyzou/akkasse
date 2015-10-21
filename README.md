@@ -69,6 +69,7 @@ data:{"magic":1644628982439445801,"timestamp":"2015-10-16T22:12:08Z"}
 #####Chrome
 * [http://localhost:9000/magic](http://localhost:9000/magic)
 * [http://localhost:9000/time](http://localhost:9000/time)
+
 ![](browser-client.png)
 
 #####The Akka / Play client
@@ -95,3 +96,49 @@ Enter number: 1
 15:16:20.610 data:{"magic":808692799200808740,"timestamp":"2015-10-16T22:16:20Z"}
 
 ```
+
+
+##Performance Measurement
+The goal is to generate a single baseline data point for the streaming API in Akka http.
+
+###Setup
+1. The API server on a M4 XLarge (4 core) similar to the modest nodes we launch as part of the Platform cluster. 
+2. EC2 Load Balancer - terminates TLS traffic
+3. The test load generator - runs [Gatling](http://gatling.io/) to generate network load. On a C4 8XLarge (36 core 10 Gbit network I/O)
+
+####Test Scenario
+
+```scala
+class Sseload extends Simulation {
+val httpConf = http
+  .baseURL("https://api-test.modeler.gy")
+
+val scn = scenario("ServerSentEvent")
+  .exec( sse("StreamingLogEvents")
+    .open("/log/sse/1")
+    .check( wsAwait.within(4000 seconds).until(1000) )
+    )
+  .exec(sse("CloseSSE").close())
+
+  setUp(
+  	scn.inject(atOnceUsers(1000))
+    ).protocols(httpConf)
+}
+```
+
+This simulates 1000 users subscribing to the stream and extracting 1000 events.
+###Results
+**Bottom line result:** The test completes successfully in the expected 500 seconds (given the emitter rate on the API server). 
+
+#### API Network out flow
+![](APIoutFlow.png)
+
+####Server Load
+![](APIserverLoad.png)
+
+####Tester Load
+![](GatlingLoad.png)
+
+####Load Balancer Queue Size
+![](lb-warming.png)
+The load balancer warms up toward the end of the test (surge queue goes from 700 to 200) - a tip for more in-depth tests: Tests should be longer than a couple of minutes.
