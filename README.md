@@ -10,13 +10,13 @@ The **Emitters** are created dynamically (simulating SaaS guest cluster launches
 
 ####REST PUT to create a resource
 This simulates a guest system launch - a resource that creates an very active event emitter. The instance log is a good example.
-![](StreamFlow-put.dot.svg)
+![](StreamFlow-put.dot.png)
 ####REST GET is available for clients that do not deal with streams
 
-![](StreamFlow-get.dot.svg)
+![](StreamFlow-get.dot.png)
 
 ####Streaming API subscription through a GET 
-![](StreamFlow.dot.svg)
+![](StreamFlow.dot.png)
 
 ####API
 The following endpoints are available:

@@ -1,5 +1,6 @@
 digraph WorkRunner {
-      rankdir=LR;
+    graph [ dpi = 300 ]; 
+    rankdir=LR;
 
      node [fontsize=12  fontname=SEOptimistLight labelfontname=SEOptimistLight shape=Mrecord penwidth=1.0 style=filled fillcolor=lightgrey];
      edge [fontsize=10  fontname=SEOptimistLight labelfontname=SEOptimistLight penwidth=1.0 ];
