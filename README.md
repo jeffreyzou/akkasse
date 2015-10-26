@@ -7,7 +7,16 @@ The SaaS Platform dynamically creates very chatty resources (guest cluster insta
 We propose a design that mixes traditional REST API's and Streaming API's and investigate the performance.
 
 The **Emitters** are created dynamically (simulating SaaS guest cluster launches) using a REST PUT call. When clients call GET stream API's a subscription is created to the Emitter. These subscriptions span the Platform cluster - the API Stream may served from a different node than the Emitter (great for load balancing).
-![](StreamFlow.dot.png)
+
+####REST PUT to create a resource
+This simulates a guest system launch - a resource that creates an very active event emitter. The instance log is a good example.
+![](StreamFlow-put.dot.svg)
+####REST GET is available for clients that do not deal with streams
+
+![](StreamFlow-get.dot.svg)
+
+####Streaming API subscription through a GET 
+![](StreamFlow.dot.svg)
 
 ####API
 The following endpoints are available:

@@ -1,0 +1,52 @@
+digraph WorkRunner {
+      rankdir=LR;
+
+     node [fontsize=12  fontname=SEOptimistLight labelfontname=SEOptimistLight shape=Mrecord penwidth=1.0 style=filled fillcolor=lightgrey];
+     edge [fontsize=10  fontname=SEOptimistLight labelfontname=SEOptimistLight penwidth=1.0 ];
+
+     Client1;
+
+     ClientN;
+
+     node [fontsize=12  fontname=SEOptimist labelfontname=SEOptimist penwidth=2.0 color=gray style=filled fillcolor=white shape=Mrecord];
+     edge [fontsize=10  fontname=SEOptimist labelfontname=SEOptimist penwidth=2.0 ];
+     graph [style="rounded, filled" color=darkgray fillcolor=khaki shape=Mrecord fontsize=12 fontname=SEOptimist labelfontname=SEOptimist labelloc="t" label="" splines=true overlap=false ];
+
+
+     Client1 -> "REST API" [label="PUT /api/resource/a" fontsize=10  fontname=SEOptimistLight labelfontname=SEOptimistLight penwidth=1.0];
+
+
+     ClientN -> "REST API" [label="PUT /api/resource/b" fontsize=10  fontname=SEOptimistLight labelfontname=SEOptimistLight penwidth=1.0];
+
+     subgraph cluster0 {
+        node [style=filled,color=gray,fillcolor=white,shape=ellipse];
+        style=filled;
+        color=lightgrey;
+        "REST API";
+        "REST API";
+        label = "HTTP Service Layer";
+     };
+
+     subgraph cluster1 {
+        node [style=filled,color=gray,fillcolor=white,shape=ellipse];
+        style=filled;
+        color=lightgrey;
+        "Emitter\n A" -> "Emitter\n A" [label="  Event \n Source A" penwidth=1.0 ];
+        "Emitter\n B" -> "Emitter\n B" [label="  Event \n Source B" penwidth=1.0 ];
+        label = "Platform Cluster";
+     };
+
+     "REST API" -> "Emitter\n A" [label="Create on Platform Cluster" fontsize=10  fontname=SEOptimistLight labelfontname=SEOptimistLight penwidth=1.5];
+     "REST API" -> "Emitter\n B" [label="Create on Platform Cluster" fontsize=10  fontname=SEOptimistLight labelfontname=SEOptimistLight penwidth=1.5];
+     ratio = auto;
+     bgcolor="transparent";
+
+
+     node [fontsize=12  fontname=SEOptimistLight labelfontname=SEOptimistLight shape=Mrecord penwidth=1.0 style=filled fillcolor=lightgrey];
+     edge [fontsize=10  fontname=SEOptimistLight labelfontname=SEOptimistLight penwidth=1.0 ];
+
+     /*"Streaming API\nA" -> "WorkDriver:doA"  [dir="both"];
+     "WorkDriver:doA" -> "WorkDriver:doA" [label=" External API A"];
+     StateB -> "WorkDriver:doB" [dir="both"];
+     "WorkDriver:doB" -> "WorkDriver:doB" [label=" External API B"];*/
+ }
