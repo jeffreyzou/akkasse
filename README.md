@@ -110,10 +110,17 @@ Enter number: 1
 ##Performance Measurement
 The goal is to generate a single baseline data point for the streaming API in Akka http.
 
-###Setup
+###Test Setup
 1. The API server on a M4 XLarge (4 core) similar to the modest nodes we launch as part of the Platform cluster. 
 2. EC2 Load Balancer - terminates TLS traffic
 3. The test load generator - runs [Gatling](http://gatling.io/) to generate network load. On a C4 8XLarge (36 core 10 Gbit network I/O)
+
+![](SSEtestScenario.png)
+
+**Simulating the data flow between the Portal Servers and Platform API**
+![](sseTestFlow.png)
+
+--
 
 ####Test Scenario
 
