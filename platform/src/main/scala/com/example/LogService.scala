@@ -112,6 +112,14 @@ object LogService  {
       }
     }
   }
+
+//  def wsLogRoute(system : ActorSystem) (implicit ex : ExecutionContext, mat : Materializer)
+//  logRequest("WS-LOG-IN") {
+//    path(IntNumber) =>
+//    get{
+//      complete()
+//    }
+//  }
 }
 
 class LogRouter(id : Int) extends Actor {

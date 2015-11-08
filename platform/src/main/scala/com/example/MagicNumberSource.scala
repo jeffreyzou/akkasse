@@ -27,7 +27,7 @@ case class MagicNumberSource( evPerSeconds : Int ) {
 
     get {
       complete {
-        Source(1.seconds, frequency, Unit)
+        Source.tick(1.seconds, frequency, Unit)
           .map(_ => r.nextLong)
           .map(magicServerSentEvent).buffer(10,OverflowStrategy.dropTail)
           .via(WithHeartbeats(frequency*10))

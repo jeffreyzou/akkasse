@@ -21,7 +21,7 @@ object TimeSource {
     import EventStreamMarshalling._
     get {
       complete {
-        Source(1.seconds, 1.seconds, Unit)
+        Source.tick(1.seconds, 1.seconds, Unit)
           .map(_ => (this.hashCode(), LocalTime.now()))
           .map{ case (id,ts) => dateTimeToServerSentEvent(id,ts)}
           .via(WithHeartbeats(1.second))
