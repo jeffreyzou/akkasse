@@ -2,17 +2,17 @@ package com.example
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.server.Directives
-import akka.stream.{OverflowStrategy, Materializer}
 import akka.stream.scaladsl.Source
-import de.heikoseeberger.akkasse.{EventStreamMarshalling, ServerSentEvent, WithHeartbeats}
+import akka.stream.{Materializer, OverflowStrategy}
+import de.heikoseeberger.akkasse.{EventStreamMarshalling, ServerSentEvent}
 import org.joda.time.DateTime
+import org.json4s._
+import org.json4s.native.JsonMethods._
+import org.json4s.native.Serialization.write
+
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
-import util.Random
-import org.json4s._
-import org.json4s.JsonDSL._
-import org.json4s.native.JsonMethods._
-import org.json4s.native.Serialization.{read, write}
+import scala.util.Random
 
 case class MagicNumberSource( evPerSeconds : Int ) {
 
@@ -30,7 +30,7 @@ case class MagicNumberSource( evPerSeconds : Int ) {
         Source.tick(1.seconds, frequency, Unit)
           .map(_ => r.nextLong)
           .map(magicServerSentEvent).buffer(10,OverflowStrategy.dropTail)
-          .via(WithHeartbeats(frequency*10))
+          .keepAlive(frequency*10, () => ServerSentEvent.Heartbeat)
       }
     }
   }

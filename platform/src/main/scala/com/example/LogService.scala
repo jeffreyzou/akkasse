@@ -15,7 +15,7 @@ import akka.http.scaladsl.model.headers._
 import akka.stream.{ActorMaterializer, OverflowStrategy, Materializer}
 import akka.stream.scaladsl.{Source, Flow}
 import com.example.ParagraphGenerator._
-import de.heikoseeberger.akkasse.{EventStreamMarshalling, ServerSentEvent, WithHeartbeats}
+import de.heikoseeberger.akkasse.{EventStreamMarshalling, ServerSentEvent}
 import org.joda.time.DateTime
 import org.json4s.native.JsonMethods._
 import org.json4s.native.Serialization._
@@ -104,7 +104,7 @@ object LogService  {
         }
       }
     } ~
-    path(Rest) {
+    path(Remaining) {
       leftover => {
         logRequest(showRest _) {
           complete(leftover + "   not matched")

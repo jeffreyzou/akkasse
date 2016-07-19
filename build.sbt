@@ -7,16 +7,16 @@ lazy val root = (project in file(".")).
 lazy val commonSettings = Seq(
   organization := "com.example",
   version := "0.1",
-  scalaVersion := "2.11.7"
+  scalaVersion := "2.11.8"
 )
 
 lazy val coreDeps = List(
-  "com.typesafe.akka" %% "akka-actor" % "2.4.0",
-  "com.typesafe.akka" %% "akka-testkit" % "2.4.0",
-  "com.typesafe.akka" %% "akka-remote"                   % "2.4.0",
-  "com.typesafe.akka" %% "akka-cluster"                  % "2.4.0",
-  "com.typesafe.akka" %% "akka-cluster-tools"            % "2.4.0",
-  "com.typesafe.akka" %% "akka-slf4j" % "2.4.0",
+  "com.typesafe.akka" %% "akka-actor" % "2.4.8",
+  "com.typesafe.akka" %% "akka-testkit" % "2.4.8",
+  "com.typesafe.akka" %% "akka-remote"                   % "2.4.8",
+  "com.typesafe.akka" %% "akka-cluster"                  % "2.4.8",
+  "com.typesafe.akka" %% "akka-cluster-tools"            % "2.4.8",
+  "com.typesafe.akka" %% "akka-slf4j" % "2.4.8",
   "com.typesafe.akka" %% "akka-stream-experimental" % "2.0-M1",
   "com.typesafe.akka" %% "akka-http-core-experimental" % "2.0-M1",
   "com.typesafe.akka" %% "akka-http-experimental" % "2.0-M1",
@@ -25,7 +25,7 @@ lazy val coreDeps = List(
   "org.json4s"        %% "json4s-ext"                 % "3.2.11",
   "org.scalatest"     %% "scalatest" % "2.2.5" % "test",
   "ch.qos.logback" 	  %  "logback-classic" % "1.1.2",
-  "de.heikoseeberger" %% "akka-sse" % "1.2.0"
+  "de.heikoseeberger" %% "akka-sse" % "1.8.1"
 )
 
 lazy val platform = (project in file("platform")).
